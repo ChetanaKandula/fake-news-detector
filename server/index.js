@@ -33,7 +33,7 @@ app.post("/predict", async (req, res) => {
       {
         inputs: text,
         parameters: {
-          candidate_labels: ["fake news", "real news"]
+          candidate_labels: ["fake", "real"]
         }
       },
       {
@@ -48,9 +48,12 @@ app.post("/predict", async (req, res) => {
 
     const result = response.data;
     const label = result.labels?.[0];
+    const score = result.scores[0];
+
 
     res.json({
-      prediction: label === "fake news" ? "Fake News" : "Real News"
+      prediction: label === "fake" ? "Fake News" : "Real News",
+      confidence: score
     });
 
   } catch (error) {
